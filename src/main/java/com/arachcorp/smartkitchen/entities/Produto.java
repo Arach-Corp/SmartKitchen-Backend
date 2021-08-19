@@ -1,6 +1,8 @@
 package com.arachcorp.smartkitchen.entities;
 
 import com.arachcorp.smartkitchen.entities.enums.Pericidade;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,10 +11,13 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "T_SMK_PRODUTO")
 public class Produto {
 
@@ -68,5 +73,18 @@ public class Produto {
                 ", perecivel=" + perecivel  +
                 ", urlFoto='" + urlFoto + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return Objects.equals(id, produto.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

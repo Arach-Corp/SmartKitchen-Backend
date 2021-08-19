@@ -1,15 +1,20 @@
 package com.arachcorp.smartkitchen.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "T_SMK_INFO_NUTRI")
 public class InformacaoNutricional {
 
@@ -25,7 +30,7 @@ public class InformacaoNutricional {
     private String carboidratos;
 
     @Column(name = "ds_proteinas", length = 20)
-    private String proteinais;
+    private String proteinas;
 
     @Column(name = "ds_gordura_totais", length = 20)
     private String gordurasTotais;
@@ -34,7 +39,7 @@ public class InformacaoNutricional {
     private String gordurasSaturadas;
 
     @Column(name = "ds_gorduras_trans", length = 20)
-    private String gorduraTrans;
+    private String gordurasTrans;
 
     @Column(name = "ds_sodio", length = 20)
     private String sodio;
@@ -50,14 +55,14 @@ public class InformacaoNutricional {
     @JoinColumn(name="produto_id")
     private Produto produto;
 
-    public InformacaoNutricional(Long id, String porcao, String carboidratos, String proteinais, String gordurasTotais, String gordurasSaturadas, String gorduraTrans, String sodio, String fibraAlimentar, Produto produto) {
+    public InformacaoNutricional(Long id, String porcao, String carboidratos, String proteinas, String gordurasTotais, String gordurasSaturadas, String gordurasTrans, String sodio, String fibraAlimentar, Produto produto) {
         this.id = id;
         this.porcao = porcao;
         this.carboidratos = carboidratos;
-        this.proteinais = proteinais;
+        this.proteinas = proteinas;
         this.gordurasTotais = gordurasTotais;
         this.gordurasSaturadas = gordurasSaturadas;
-        this.gorduraTrans = gorduraTrans;
+        this.gordurasTrans = gordurasTrans;
         this.sodio = sodio;
         this.fibraAlimentar = fibraAlimentar;
         this.produto = produto;
@@ -69,12 +74,25 @@ public class InformacaoNutricional {
                 "id=" + id +
                 ", porcao='" + porcao + '\'' +
                 ", carboidratos='" + carboidratos + '\'' +
-                ", proteinais='" + proteinais + '\'' +
+                ", proteinais='" + proteinas + '\'' +
                 ", gordurasTotais='" + gordurasTotais + '\'' +
                 ", gordurasSaturadas='" + gordurasSaturadas + '\'' +
-                ", gorduraTrans='" + gorduraTrans + '\'' +
+                ", gorduraTrans='" + gordurasTrans + '\'' +
                 ", sodio='" + sodio + '\'' +
                 ", fibraAlimentar='" + fibraAlimentar + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InformacaoNutricional that = (InformacaoNutricional) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
