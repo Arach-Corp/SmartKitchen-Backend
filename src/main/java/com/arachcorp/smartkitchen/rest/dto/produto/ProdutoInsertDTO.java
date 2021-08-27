@@ -8,7 +8,6 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -16,11 +15,11 @@ import javax.validation.constraints.NotNull;
 public class ProdutoInsertDTO {
 
     @NotBlank(message = "{produto-dto.nome.empty}")
-    @Length(message = "{produto-dto.nome.length}",  max = 40)
+    @Length(message = "{produto-dto.nome.length}", max = 40)
     private String nome;
 
     @NotBlank(message = "{produto-dto.descricao.empty}")
-    @Length(message = "{produto-dto.descricao.length}",  max = 200)
+    @Length(message = "{produto-dto.descricao.length}", max = 200)
     private String descricao;
 
     @NotBlank(message = "{produto-dto.marca.empty}")
@@ -36,7 +35,7 @@ public class ProdutoInsertDTO {
     @NotNull(message = "{produto-dto.informacaoNutricionalDTO.empty}")
     private InformacaoNutricionalDTO informacaoNutricional;
 
-    public Produto toProduto(){
+    public Produto toProduto() {
         return Produto.builder()
                 .nome(nome)
                 .descricao(descricao)

@@ -1,5 +1,7 @@
 package com.arachcorp.smartkitchen.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,7 +13,9 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "T_SMK_USER")
 public class User {
 
@@ -42,7 +46,7 @@ public class User {
     @OneToMany(mappedBy = "id.user")
     private List<UserDispositivo> dispositivos = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "T_SMK_USER_ROLES",
             joinColumns = @JoinColumn(name = "user_id"),

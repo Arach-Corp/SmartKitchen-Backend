@@ -31,7 +31,7 @@ public class ProdutoService {
         return produtoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto resource not found for ID:" + id));
     }
 
-    public Produto create(Produto produto) {
+    public Produto create(Produto produto) throws CreateResourceException {
         try {
             produto.getInformacaoNutricional().setProduto(produto);
             return produtoRepository.save(produto);
@@ -42,13 +42,13 @@ public class ProdutoService {
     }
 
     public void update(Produto produto, Long id) throws ResourceNotFoundException, UpdateResourceException {
-        try{
+        try {
             final Produto target = getById(id);
             populate(produto, target);
             produtoRepository.save(target);
         } catch (ResourceNotFoundException e) {
             throw e;
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new UpdateResourceException("Produto resource cannot be updated");
         }
