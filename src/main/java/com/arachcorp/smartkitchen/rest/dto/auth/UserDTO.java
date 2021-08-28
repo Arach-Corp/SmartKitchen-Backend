@@ -25,7 +25,7 @@ public class UserDTO {
     private List<String> roles;
 
 
-    public static UserDTO fromUser(User user) {
+    public static UserDTO of(User user) {
         return Objects.isNull(user) ? null : UserDTO.builder()
                 .id(user.getId())
                 .email(user.getEmail())

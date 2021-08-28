@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,11 +46,12 @@ public class AuthController {
         user.setPassword(credentialsDTO.getPassword());
         final UserDetails userDetails = userService.autenticate(user);
         final String token = jwtService.createToken(user);
-        log.info("User " + user.getEmail() + "logged");
+        log.info("User " + user.getEmail() + " logged");
         final TokenDTO tokenDTO = TokenDTO.builder()
                 .token(token)
                 .email(user.getEmail())
                 .expiresIn(jwtService.getExpiresIn(token))
+                .user(UserDTO.of(userService.getByEmail(user.getEmail())))
                 .build();
         return ResponseEntity.ok(tokenDTO);
     }
@@ -60,13 +60,13 @@ public class AuthController {
     public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterDTO registerDTO) {
         final Role role = roleRepository.findByDescricaoIsLike("CLIENT").get();
         User user = User.builder()
-            .email(registerDTO.getEmail())
-            .password(registerDTO.getPassword())
-            .nome(registerDTO.getNome())
-            .roles(Arrays.asList(role))
-            .build();
+                .email(registerDTO.getEmail())
+                .password(registerDTO.getPassword())
+                .nome(registerDTO.getNome())
+                .roles(Arrays.asList(role))
+                .build();
         user = userService.create(user);
-        final UserDTO dto = UserDTO.fromUser(user);
+        final UserDTO dto = UserDTO.of(user);
         return ResponseEntity.created(UriUtils.createFromCurrentRequest(null)).body(dto);
     }
 

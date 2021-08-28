@@ -21,8 +21,8 @@ public class ProdutoDTO {
     private InformacaoNutricionalDTO informacaoNutricional;
     private LocalDateTime timestamp;
 
-    public static ProdutoDTO of(Produto source){
-        return (Objects.isNull(source))? null:
+    public static ProdutoDTO of(Produto source) {
+        return (Objects.isNull(source)) ? null :
                 ProdutoDTO.builder()
                         .id(source.getId())
                         .nome(source.getNome())

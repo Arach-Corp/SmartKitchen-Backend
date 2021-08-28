@@ -82,7 +82,6 @@ public class ProdutoController {
         return ResponseEntity.noContent().build();
     }
 
-
     @ApiOperation("${produto-api.deletebyid.description}")
     @ApiResponses({
             @ApiResponse(code = 204, message = "DELETED"),

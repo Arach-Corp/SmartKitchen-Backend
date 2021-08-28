@@ -1,6 +1,5 @@
 package com.arachcorp.smartkitchen.entities;
 
-import com.arachcorp.smartkitchen.entities.enums.Pericidade;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,20 +24,20 @@ public class Lote {
     private LocalDateTime dataFabricacao;
 
     @Column(name = "dt_validade")
-    private  LocalDateTime dataValidade;
+    private LocalDateTime dataValidade;
 
     @Column(name = "dt_cadastro", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime timestamp;
 
     @ManyToOne
-    @JoinColumn(name="produto_id")
+    @JoinColumn(name = "produto_id")
     private Produto produto;
 
     @OneToMany(mappedBy = "lote", fetch = FetchType.LAZY)
     private List<ItemDispensa> registros = new ArrayList<>();
 
-    public Lote(Long id, LocalDateTime dataFabricacao, LocalDateTime dataValidade,  Produto produto) {
+    public Lote(Long id, LocalDateTime dataFabricacao, LocalDateTime dataValidade, Produto produto) {
         this.id = id;
         this.dataFabricacao = dataFabricacao;
         this.dataValidade = dataValidade;

@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.Arrays;
 
 @Profile({"test"})
@@ -52,7 +51,7 @@ public class TestInstantiationConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-    //  Produtos
+        //  Produtos
         final InformacaoNutricional info1 = new InformacaoNutricional(null, "20g", "2g", "0.1g", "0g", "0g", "0g", "20mg", "2.1g", null);
         final Produto p1 = new Produto(null, "Produto 1", "Produto 1 sabor chocolate", "Marca", null, Pericidade.PERECIVEL, info1);
         info1.setProduto(p1);
@@ -64,7 +63,7 @@ public class TestInstantiationConfig implements CommandLineRunner {
         produtoRepository.saveAll(Arrays.asList(p1, p2));
 
 
-    //  Lotes
+        //  Lotes
         final LocalDateTime dataFabricacao = LocalDateTime.now();
         final Lote lote1 = new Lote(null, dataFabricacao, dataFabricacao.plusMonths(3), p1);
         final Lote lote2 = new Lote(null, dataFabricacao.plusMonths(3), dataFabricacao.plusMonths(6), p1);
@@ -73,13 +72,13 @@ public class TestInstantiationConfig implements CommandLineRunner {
         loteRepository.saveAll(Arrays.asList(lote1, lote2, lote3, lote4));
 
 
-    // Roles
+        // Roles
         final Role role1 = new Role(null, "ADMIN");
         final Role role2 = new Role(null, "CLIENT");
         roleRepository.saveAll(Arrays.asList(role1, role2));
 
 
-    // Users
+        // Users
         final User user1 = new User(null, "ADMIN", "admin@gmail.com", encoder.encode("teste123"), null);
         user1.getRoles().add(role1);
 
@@ -89,7 +88,7 @@ public class TestInstantiationConfig implements CommandLineRunner {
         userRepository.saveAll(Arrays.asList(user1, user2));
 
 
-    // Notificacao
+        // Notificacao
         final Notificacao n1 = new Notificacao(null, user1, "Painel adminitrativo", "acesse o painel administrativo");
         final Notificacao n2 = new Notificacao(null, user1, "Painel adminitrativo 2", "acesse o painel administrativo 2");
         final Notificacao n3 = new Notificacao(null, user2, "Novo usuário cadastrados", "Seja bem vindo");
@@ -98,20 +97,20 @@ public class TestInstantiationConfig implements CommandLineRunner {
         notificacaoRepository.saveAll(Arrays.asList(n1, n2, n3));
 
 
-    // Dispositivo
+        // Dispositivo
         final Dispositivo d1 = new Dispositivo(null, "Casa 1", "st42sad4sa5dsa45d");
         final Dispositivo d2 = new Dispositivo(null, "Casa 2", "st42sa98sadsa4d23");
         dispositivoRepository.saveAll(Arrays.asList(d1, d2));
 
 
-    // UserDispositivo
+        // UserDispositivo
         final UserDispositivo ud1 = new UserDispositivo(new UserDispositivoPK(user2, d1), true);
         final UserDispositivo ud2 = new UserDispositivo(new UserDispositivoPK(user2, d2), false);
         user2.getDispositivos().addAll(Arrays.asList(ud1, ud2));
         userDispositivoRepository.saveAll(Arrays.asList(ud1, ud2));
 
 
-    // Item Dispensa
+        // Item Dispensa
         final ItemDispensa item1 = new ItemDispensa(null, 1, true, lote1, d1);
         final ItemDispensa item2 = new ItemDispensa(null, 10, true, lote3, d2);
         d1.getItemsDispensa().add(item1);

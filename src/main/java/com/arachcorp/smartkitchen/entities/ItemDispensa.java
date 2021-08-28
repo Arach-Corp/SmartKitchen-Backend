@@ -1,4 +1,5 @@
 package com.arachcorp.smartkitchen.entities;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,11 +32,11 @@ public class ItemDispensa {
     private LocalDateTime dataRetirada;
 
     @ManyToOne
-    @JoinColumn(name="lote_id")
+    @JoinColumn(name = "lote_id")
     private Lote lote;
 
     @ManyToOne
-    @JoinColumn(name="dispositivo_id")
+    @JoinColumn(name = "dispositivo_id")
     private Dispositivo dispositivo;
 
     public ItemDispensa(Long id, Integer quantidade, boolean ativo, Lote lote, Dispositivo dispositivo) {

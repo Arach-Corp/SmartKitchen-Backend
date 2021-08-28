@@ -13,4 +13,5 @@ public class TokenDTO {
     private String email;
     private String token;
     private Long expiresIn;
+    private UserDTO user;
 }

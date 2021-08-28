@@ -21,7 +21,7 @@ public class DispositivoDTO {
     private boolean principal;
     private LocalDateTime timestamp;
 
-    public static DispositivoDTO fromUserDispositivo(UserDispositivo source) {
+    public static DispositivoDTO of(UserDispositivo source) {
         if (Objects.isNull(source) || Objects.isNull(source.getId()) || Objects.isNull(source.getId().getDispositivo())) {
             return null;
         }

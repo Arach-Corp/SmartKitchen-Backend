@@ -136,5 +136,19 @@ public class ExceptionsHandler {
                 ).build();
         return ResponseEntity.status(status).body(error);
     }
+
+    @ExceptionHandler(DispositivoAlreadyRegistered.class)
+    public ResponseEntity<StandardError> dispositivoAlreadyRegistered(DispositivoAlreadyRegistered e, HttpServletRequest req){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        final StandardError error = StandardError.builder()
+                .code(status.value())
+                .timestamp(LocalDateTime.now())
+                .path(req.getRequestURI())
+                .message("Dispositivo registration exception")
+                .errors(
+                        Arrays.asList(e.getMessage())
+                ).build();
+        return ResponseEntity.status(status).body(error);
+    }
 }
 

@@ -19,7 +19,7 @@ public class NotificacaoDTO {
     private String mensagem;
     private LocalDateTime timestamp;
 
-    public static NotificacaoDTO fromNotificacao (Notificacao source){
+    public static NotificacaoDTO of(Notificacao source){
         if (Objects.isNull(source)) { return null; }
         return NotificacaoDTO.builder()
                 .id(source.getId())

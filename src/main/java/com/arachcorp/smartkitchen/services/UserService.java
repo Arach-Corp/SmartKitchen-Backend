@@ -56,17 +56,16 @@ public class UserService implements UserDetailsService {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage(), e);
-            throw new UserRegisterException("O email '"+ user.getEmail() +"' já está em uso");
-        }
-        catch (Exception e) {
+            throw new UserRegisterException("O email '" + user.getEmail() + "' já está em uso");
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new UserRegisterException("Erro trying create a new user");
         }
     }
 
-    private User getByEmail(final String email) {
+    public User getByEmail(final String email) throws ResourceNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User " + email + " not found"));
     }
 
@@ -93,11 +92,10 @@ public class UserService implements UserDetailsService {
         try {
             final UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             return getByEmail(user.getUsername());
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
-
 
     protected void populate(User source, User target) {
         target.setNome(source.getNome());
