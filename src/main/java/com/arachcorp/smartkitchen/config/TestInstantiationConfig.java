@@ -91,10 +91,11 @@ public class TestInstantiationConfig implements CommandLineRunner {
 
     // Notificacao
         final Notificacao n1 = new Notificacao(null, user1, "Painel adminitrativo", "acesse o painel administrativo");
-        final Notificacao n2 = new Notificacao(null, user2, "Novo usuário cadastrados", "Seja bem vindo");
+        final Notificacao n2 = new Notificacao(null, user1, "Painel adminitrativo 2", "acesse o painel administrativo 2");
+        final Notificacao n3 = new Notificacao(null, user2, "Novo usuário cadastrados", "Seja bem vindo");
         user1.getNotificacoes().add(n1);
         user2.getNotificacoes().add(n2);
-        notificacaoRepository.saveAll(Arrays.asList(n1, n2));
+        notificacaoRepository.saveAll(Arrays.asList(n1, n2, n3));
 
 
     // Dispositivo

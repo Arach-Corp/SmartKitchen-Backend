@@ -25,6 +25,4 @@ public class RegisterDTO {
     @NotBlank(message = "{auth.register-dto.password.empty}")
     private String password;
 
-    private String urlFoto;
-
 }

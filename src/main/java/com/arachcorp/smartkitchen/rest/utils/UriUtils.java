@@ -12,7 +12,6 @@ public abstract class UriUtils {
                 .path(path)
                 .buildAndExpand(objects)
                 .toUri();
-
         return uri;
     }
 }

@@ -1,6 +1,7 @@
 package com.arachcorp.smartkitchen.entities;
 
 import com.arachcorp.smartkitchen.entities.pk.UserDispositivoPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 public class UserDispositivo {
 
     @EmbeddedId
+    @JsonIgnore
     private UserDispositivoPK id;
 
     @Column(name = "bl_principal")

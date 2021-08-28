@@ -29,10 +29,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         String authorization = req.getHeader("Authorization");
-        if (authorization != null && authorization.startsWith("Bearer")) {
+        if (jwtService.isValidBearerToken(authorization)) {
             String token = authorization.split(" ")[1];
             boolean isValid = jwtService.isValidToken(token);
-            if (isValid){
+            if (isValid) {
                 String username = jwtService.getUsername(token);
                 UserDetails userDetails = userService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

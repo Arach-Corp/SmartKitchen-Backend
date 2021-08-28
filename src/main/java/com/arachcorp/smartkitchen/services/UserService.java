@@ -6,14 +6,13 @@ import com.arachcorp.smartkitchen.repositories.UserRepository;
 import com.arachcorp.smartkitchen.services.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -57,7 +56,11 @@ public class UserService implements UserDetailsService {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
-        } catch (Exception e) {
+        } catch (DataIntegrityViolationException e){
+            log.error(e.getMessage(), e);
+            throw new UserRegisterException("O email '"+ user.getEmail() +"' já está em uso");
+        }
+        catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new UserRegisterException("Erro trying create a new user");
         }
@@ -84,6 +87,15 @@ public class UserService implements UserDetailsService {
                 .password(user.getPassword())
                 .roles(roles)
                 .build();
+    }
+
+    public User getCurrentUser() {
+        try {
+            final UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return getByEmail(user.getUsername());
+        } catch (Exception e){
+            return null;
+        }
     }
 
 

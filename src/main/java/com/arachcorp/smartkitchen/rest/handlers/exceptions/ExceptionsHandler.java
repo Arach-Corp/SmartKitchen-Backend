@@ -122,5 +122,19 @@ public class ExceptionsHandler {
                 ).build();
         return ResponseEntity.status(status).body(error);
     }
+
+    @ExceptionHandler(UserRegisterException.class)
+    public ResponseEntity<StandardError> userRegisterException(UserRegisterException e, HttpServletRequest req){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        final StandardError error = StandardError.builder()
+                .code(status.value())
+                .timestamp(LocalDateTime.now())
+                .path(req.getRequestURI())
+                .message("User registration exception")
+                .errors(
+                        Arrays.asList(e.getMessage())
+                ).build();
+        return ResponseEntity.status(status).body(error);
+    }
 }
 

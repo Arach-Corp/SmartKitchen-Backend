@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+@Slf4j
 @Service
 public class JwtService {
 
@@ -52,6 +54,9 @@ public class JwtService {
             LocalDateTime dtt = expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             return LocalDateTime.now().isBefore(dtt);
         } catch (ExpiredJwtException e) {
+            log.info("Expired token: " + token);
+            return false;
+        } catch (Exception e){
             return false;
         }
     }
@@ -67,4 +72,8 @@ public class JwtService {
         return expireDate.getTime() - now.getTime();
     }
 
+
+    public boolean isValidBearerToken(String bearerToken){
+        return bearerToken != null && bearerToken.startsWith("Bearer") && bearerToken.split(" ").length == 2;
+    }
 }

@@ -1,6 +1,8 @@
 package com.arachcorp.smartkitchen.rest;
 
+import com.arachcorp.smartkitchen.entities.Role;
 import com.arachcorp.smartkitchen.entities.User;
+import com.arachcorp.smartkitchen.repositories.RoleRepository;
 import com.arachcorp.smartkitchen.rest.dto.auth.CredentialsDTO;
 import com.arachcorp.smartkitchen.rest.dto.auth.RegisterDTO;
 import com.arachcorp.smartkitchen.rest.dto.auth.TokenDTO;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 
 @Api
 @Slf4j
@@ -31,7 +34,7 @@ public class AuthController {
     private UserService userService;
 
     @Autowired
-    private PasswordEncoder encoder;
+    private RoleRepository roleRepository;
 
     @Autowired
     private JwtService jwtService;
@@ -55,19 +58,15 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterDTO registerDTO) {
+        final Role role = roleRepository.findByDescricaoIsLike("CLIENT").get();
         User user = User.builder()
             .email(registerDTO.getEmail())
             .password(registerDTO.getPassword())
             .nome(registerDTO.getNome())
-            .urlFoto(registerDTO.getUrlFoto())
+            .roles(Arrays.asList(role))
             .build();
         user = userService.create(user);
-
-        final UserDTO dto = UserDTO.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .nome(user.getNome())
-                .build();
+        final UserDTO dto = UserDTO.fromUser(user);
         return ResponseEntity.created(UriUtils.createFromCurrentRequest(null)).body(dto);
     }
 
