@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Data
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class CredentialsDTO {
 
+    @Email(message = "{auth.credentials-dto.email.valid}")
     @NotBlank(message = "{auth.credentials-dto.email.empty}")
     private String email;
 

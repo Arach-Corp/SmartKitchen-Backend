@@ -1,11 +1,9 @@
 package com.arachcorp.smartkitchen.rest.utils;
 
-import com.arachcorp.smartkitchen.entities.ItemDispensa;
-import com.arachcorp.smartkitchen.entities.Notificacao;
-import com.arachcorp.smartkitchen.entities.Produto;
-import com.arachcorp.smartkitchen.entities.UserDispositivo;
+import com.arachcorp.smartkitchen.entities.*;
 import com.arachcorp.smartkitchen.rest.dto.dispensa.ItemDispensaDTO;
 import com.arachcorp.smartkitchen.rest.dto.dispositivo.DispositivoDTO;
+import com.arachcorp.smartkitchen.rest.dto.lote.LoteDTO;
 import com.arachcorp.smartkitchen.rest.dto.notificacao.NotificacaoDTO;
 import com.arachcorp.smartkitchen.rest.dto.produto.ProdutoDTO;
 import org.springframework.data.domain.Page;
@@ -34,6 +32,11 @@ public abstract class PageConverterUtils {
 
     public static Page<NotificacaoDTO> convertNotificacaoPage(final Page<Notificacao> source, final Pageable pageable) {
         final List<NotificacaoDTO> result = source.getContent().stream().map(NotificacaoDTO::of).collect(Collectors.toList());
+        return new PageImpl<>(result, pageable, source.getTotalElements());
+    }
+
+    public static Page<LoteDTO> convertLotePage(final Page<Lote> source, final Pageable pageable) {
+        final List<LoteDTO> result = source.getContent().stream().map(LoteDTO::of).collect(Collectors.toList());
         return new PageImpl<>(result, pageable, source.getTotalElements());
     }
 }
