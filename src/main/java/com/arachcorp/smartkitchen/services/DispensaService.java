@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class DispensaService {
     @Autowired
@@ -23,6 +25,16 @@ public class DispensaService {
 
     public ItemDispensa getItemDispensaByIdAndDispositivo(Long id, Dispositivo dispositivo) throws ResourceNotFoundException {
         return itemDispensaRepository.findByIdAndDispositivo(id, dispositivo).orElseThrow(() -> new ResourceNotFoundException("Item não se encontra na dispensa"));
+    }
+
+    public ItemDispensa addItemDispensa(Dispositivo dispositivo, ItemDispensa itemDispensa) {
+        if (Objects.nonNull(itemDispensa) && Objects.nonNull(dispositivo)){
+            dispositivo.getItemsDispensa().add(itemDispensa);
+            itemDispensa.setDispositivo(dispositivo);
+            dispositivoService.save(dispositivo);
+            return itemDispensaRepository.save(itemDispensa);
+        }
+        return null;
     }
 
 }

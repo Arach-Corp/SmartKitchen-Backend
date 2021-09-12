@@ -78,6 +78,13 @@ public class UserController {
         return ResponseEntity.ok(DispositivoDTO.of(userDispositivo));
     }
 
+    @DeleteMapping("/dispositivos/{id}")
+    public ResponseEntity<Void> deleteDispositivo(@PathVariable Long id) {
+        final User user = userService.getCurrentUser();
+        dispositivoService.deleteById(user, id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/dispositivos/{id}/dispensa")
     public ResponseEntity<Page<ItemDispensaDTO>> itemsDispensaPorDispositivo(
             @PathVariable Long id,

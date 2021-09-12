@@ -30,7 +30,7 @@ public class Dispositivo {
     @Column(name = "dt_cadastro")
     private LocalDateTime timestamp;
 
-    @OneToMany(mappedBy = "id.dispositivo")
+    @OneToMany(mappedBy = "id.dispositivo", cascade = CascadeType.ALL)
     private List<UserDispositivo> usuarios = new ArrayList<>();
 
     @OneToMany(mappedBy = "dispositivo")
