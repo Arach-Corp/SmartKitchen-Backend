@@ -17,7 +17,7 @@ import java.util.*;
 
 @Configuration
 @EnableSwagger2
-@Profile(value = {"dev", "test", "prod"})
+@Profile(value = {"dev", "test", "prod", "jenkins"})
 @PropertySource("classpath:swagger-messages.properties")
 public class SwaggerConfig {
 

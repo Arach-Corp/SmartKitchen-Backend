@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-@Profile({"test"})
+@Profile({"test", "jenkins"})
 @Configuration
 public class TestInstantiationConfig implements CommandLineRunner {
 
@@ -73,10 +73,22 @@ public class TestInstantiationConfig implements CommandLineRunner {
 
 
         // Roles
-        final Role role1 = new Role(null, "ADMIN");
-        final Role role2 = new Role(null, "CLIENT");
-        roleRepository.saveAll(Arrays.asList(role1, role2));
+        final Role role1;
+        final Role role2;
 
+        if (!roleRepository.existsByDescricao("CLIENT")) {
+            role1 = new Role(null, "CLIENT");
+            roleRepository.save(role1);
+        } else {
+            role1 = roleRepository.findByDescricaoIsLike("CLIENT").get();
+        }
+
+        if (!roleRepository.existsByDescricao("ADMIN")) {
+            role2 = new Role(null, "ADMIN");
+            roleRepository.save(role2);
+        } else {
+            role2 = roleRepository.findByDescricaoIsLike("ADMIN").get();
+        }
 
         // Users
         final User user1 = new User(null, "ADMIN", "admin@gmail.com", encoder.encode("teste123"), null);
