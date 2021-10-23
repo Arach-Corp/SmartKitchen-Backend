@@ -49,6 +49,13 @@ public class UserController {
         return ResponseEntity.ok(dto);
     }
 
+    @DeleteMapping("/profile")
+    public ResponseEntity<Void> deleteProfile () {
+        final User user = userService.getCurrentUser();
+        userService.delete(user);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/dispositivos")
     public ResponseEntity<Page<DispositivoDTO>> dispositivos(
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -82,6 +89,14 @@ public class UserController {
     public ResponseEntity<Void> deleteDispositivo(@PathVariable Long id) {
         final User user = userService.getCurrentUser();
         dispositivoService.deleteById(user, id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/dispositivo/{id}")
+    public ResponseEntity<Void> updateDispositivo(@PathVariable Long id, @RequestBody RegisterDispositivoDTO dto) {
+        final User user = userService.getCurrentUser();
+        final Dispositivo dispositivo = dispositivoService.getDispositivoByDispositivoId(user, id);
+        dispositivoService.updateDispositivo(dispositivo, dto);
         return ResponseEntity.noContent().build();
     }
 

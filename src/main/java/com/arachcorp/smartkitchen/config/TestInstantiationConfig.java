@@ -72,10 +72,23 @@ public class TestInstantiationConfig implements CommandLineRunner {
         loteRepository.saveAll(Arrays.asList(lote1, lote2, lote3, lote4));
 
 
+
         // Roles
-        final Role role1 = new Role(null, "ADMIN");
-        final Role role2 = new Role(null, "CLIENT");
+        Role role1 = null;
+        Role role2 = null;
+        if (roleRepository.existsByDescricao("ADMIN")) {
+            role1 = roleRepository.findByDescricaoIsLike("ADMIN").get();
+        } else {
+            role1 = new Role(null, "ADMIN");
+        }
+
+        if (roleRepository.existsByDescricao("CLIENT")) {
+            role2 = roleRepository.findByDescricaoIsLike("CLIENT").get();
+        } else {
+            role2 = new Role(null, "CLIENT");
+        }
         roleRepository.saveAll(Arrays.asList(role1, role2));
+
 
 
         // Users

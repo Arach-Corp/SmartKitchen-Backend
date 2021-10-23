@@ -35,6 +35,17 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public void delete(User user) {
+        try {
+            userRepository.delete(user);
+        } catch (ResourceNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new DeleteResourceException("User resource cannot be deleted");
+        }
+    }
+
     public void update(Long id, User user) {
         try {
             final User entity = getById(id);

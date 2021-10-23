@@ -40,10 +40,10 @@ public class User {
     @Column(name = "url_foto", length = 128)
     private String urlFoto;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Notificacao> notificacoes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "id.user")
+    @OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL)
     private List<UserDispositivo> dispositivos = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

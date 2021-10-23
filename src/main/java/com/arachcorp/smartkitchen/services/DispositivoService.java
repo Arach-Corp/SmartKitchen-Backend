@@ -6,10 +6,8 @@ import com.arachcorp.smartkitchen.entities.UserDispositivo;
 import com.arachcorp.smartkitchen.entities.pk.UserDispositivoPK;
 import com.arachcorp.smartkitchen.repositories.DispositivoRepository;
 import com.arachcorp.smartkitchen.repositories.UserDispositivoRepository;
-import com.arachcorp.smartkitchen.services.exceptions.CreateResourceException;
-import com.arachcorp.smartkitchen.services.exceptions.DeleteResourceException;
-import com.arachcorp.smartkitchen.services.exceptions.DispositivoAlreadyRegistered;
-import com.arachcorp.smartkitchen.services.exceptions.ResourceNotFoundException;
+import com.arachcorp.smartkitchen.rest.dto.dispositivo.RegisterDispositivoDTO;
+import com.arachcorp.smartkitchen.services.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -79,6 +77,20 @@ public class DispositivoService {
 
     public Dispositivo save(Dispositivo dispositivo) {
         return dispositivoRepository.save(dispositivo);
+    }
+
+    public void updateDispositivo(Dispositivo dispositivo, RegisterDispositivoDTO dto) {
+        try {
+            populate(dto, dispositivo);
+            save(dispositivo);
+        } catch (Exception e) {
+            throw new UpdateResourceException("Não foi possível atualizar o dispositivo");
+        }
+    }
+
+    public void populate(RegisterDispositivoDTO source, Dispositivo target) {
+        target.setKey(source.getKey());
+        target.setDescricao(source.getDescricao());
     }
 
 }
