@@ -102,7 +102,7 @@ OBS: No caso de rodar a aplicação localmente verificar se está no profile de 
 - [x] Perfil de usuario
 - [x] Notificações do Usuário
 - [X] Consulta de produtos na dispensa
-- [ ] Integração Node-RED (POC)(Refatoração Em andamento) 
+- [X] Integração Node-RED
 
 ## Tabela de Endpoints
 ![Tabela parte 1](https://cdn.discordapp.com/attachments/886625962006028288/886731300227149844/unknown.png)
